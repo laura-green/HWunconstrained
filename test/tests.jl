@@ -4,6 +4,7 @@
 @testset "basics" begin
 
 	@testset "Test Data Construction" begin
+		@test 1==2
 
 	end
 
@@ -15,12 +16,6 @@
 	@testset "Test return value of gradient" begin
 
 	end
-
-	@testset "gradient vs finite difference" begin
-		# gradient should not return anything,
-		# but modify a vector in place.
-
-	end
 end
 
 @testset "test maximization results" begin
@@ -29,6 +24,9 @@ end
 	end
 
 	@testset "maximize_grad returns accurate result" begin
+	end
+
+	@testset "maximize_grad_hess returns accurate result" begin
 	end
 
 	@testset "gradient is close to zero at max like estimate" begin
