@@ -1,10 +1,11 @@
 language: julia
 os:
+  - osx
   - linux
 julia:
-  - 0.5
+  - 0.6
 notifications:
   email: false
-script:
-  - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
-  - julia -e 'Pkg.clone(pwd()); Pkg.build("HW_unconstrained"); Pkg.test("HW_unconstrained")';
+#script: # the default script is equivalent to the following
+#  - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
+#  - julia -e 'Pkg.clone(pwd()); Pkg.build("Example"); Pkg.test("Example"; coverage=true)';
