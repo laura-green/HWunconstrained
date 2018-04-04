@@ -35,16 +35,22 @@ end
 		@test minimizer[1] ≈ 1 atol = 0.1
 		@test minimizer[2] ≈ 1.5 atol = 0.1
 		@test minimizer[3] ≈ -0.5 atol = 0.1
+		hessian = Matrix{Float64}(3,3)
+		uncons.hessian!(hessian, minimizer, uncons.makedata())
+		eigva = eig(hessian)[1]
+		@test eigva[1] > 0
+		@test eigva[2] > 0
+		@test eigva[3] > 0
+	end
+	@testset "gradient is close to zero at max like estimate" begin
+		grad = Vector(3)
+		uncons.grad!(grad, uncons.maximize_like_grad().minimizer, uncons.makedata())
+		@test grad[1] ≈ 0 atol = 1.0e-5
+		@test grad[2] ≈ 0 atol = 1.0e-5
+		@test grad[3] ≈ 0 atol = 1.0e-5
 	end
 end
 
-# 	@testset "gradient is close to zero at max like estimate" begin
-# 		storage = Vector(3)
-# 		uncons.grad!(storage, uncons.maximize_like_grad().minimizer, uncons.makedata())
-# 		@test storage[1] ≈ 0 atol = 1.0e-10
-# 		@test storage[2] ≈ 0 atol = 1.0e-10
-# 		@test storage[3] ≈ 0 atol = 1.0e-10
-#  	end
 
 # @testset "test against GLM" begin
 # 	@testset "estimates vs GLM" begin

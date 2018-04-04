@@ -11,18 +11,18 @@ module uncons
     The prompt string, if given, is printed to standard output without a
     trailing newline before reading input.
     """
-    #function input(prompt::AbstractString="")
-    #    print(prompt)
-    #    return chomp(readline())
-    #end
+    function input(prompt::AbstractString="")
+       print(prompt)
+       return chomp(readline())
+    end
 
-    #export maximize_like_grad, runall, makedata
+    export maximize_like_grad, runall, makedata
 
 	# methods/functions
 	# -----------------
-
+	#
 	# data creator
-	# should/could return a dict with beta,numobs,X,y,norm)
+	#  should/could return a dict with beta,numobs,X,y,norm)
 	# true coeff vector, number of obs, data matrix X, response vector y, and a type of parametric distribution for G.
 	beta = [1; 1.5; -0.5]
 
@@ -133,7 +133,7 @@ module uncons
 			- x / √(2*π) * exp(-x^2/2)
 		end
 		gprime_xbeta = 	phideriv.(xbeta) # (n,1)
-		storage[:] = -sum(((d["y"] .* (gprime_xbeta .* G_xbeta - g_xbeta_sq) ./ G_xbeta_sq) - (1-d["y"]) .* (gprime_xbeta .* G_xbeta + g_xbeta_sq )./ (1-G_xbeta).^2)[i] * d["X"][i,:]) * transpose(d["X"][i,:]) for i in 1:d["n"])
+		storage[:] = - sum(((d["y"] .* (gprime_xbeta .* G_xbeta - g_xbeta_sq) ./ G_xbeta_sq  - (1-d["y"]) .* (gprime_xbeta .* (1 - G_xbeta) + g_xbeta_sq )./ (1-G_xbeta).^2)[i] * d["X"][i,:]) * transpose(d["X"][i,:]) for i in 1:d["n"])
 		return nothing
 	end
 
